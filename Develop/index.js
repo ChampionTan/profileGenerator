@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
-const generateHtml = require('./src/page-template.js');
+const generatePage = require('./src/page-template.js');
 const fs = require('fs');
 
 const memberArray = [];
@@ -16,15 +16,12 @@ const teamInfo = [
 		choices: ['Manager', 'Engineer', 'Intern']
 	},	
 	
-	
-	
-	
 	{
 			type: 'input',
 			name: 'name',
 			message: 'What is the team members name?',
-			validate: input => {
-				if (input) {
+			validate: nameInput => {
+				if (nameInput) {
 					return true;
 				}else {
 					console.log('Please input a team member name');
@@ -36,8 +33,8 @@ const teamInfo = [
 			type: 'input',
 			name: 'email',
 			message: 'What is the team members email?',
-			validate: input => {
-				if (input) {
+			validate: emailInput => {
+				if (emailInput) {
 					return true;
 				}else {
 					console.log('Please input team members email');
@@ -49,8 +46,8 @@ const teamInfo = [
 			type: 'input',
 			name: 'id',
 			message: 'What is the team members ID?',
-			validate: input => {
-				if (input) {
+			validate: idInput => {
+				if (idInput) {
 					return true;
 				}else {
 					console.log('Please input the team members ID');
@@ -62,7 +59,7 @@ const teamInfo = [
 			type: 'input',
 			name: 'number',
 			message: 'What is the team members office number?',
-			when: (officeInput) => officeInput.role === 'Manager',
+			when: (numberInput) => numberInput.position === 'Manager',
 			validate: officeInput => {
 				if (officeInput) {
 					return true;
@@ -76,7 +73,7 @@ const teamInfo = [
 			type: 'input',
 			name: 'github',
 			message: 'What is the team members GitHub?',
-			when: (githubInput) => githubInput.role === 'Engineer',
+			when: (githubInput) => githubInput.position === 'Engineer',
 			validate: githubInput => {
 				if (githubInput) {
 					return true;
@@ -90,7 +87,7 @@ const teamInfo = [
 			type: 'input',
 			name: 'school',
 			message: 'What is the team members school?',
-			when: (schoolInput) => schoolInput.role === 'Intern',
+			when: (schoolInput) => schoolInput.position === 'Intern',
 			validate: schoolInput => {
 				if (schoolInput) {
 					return true;
@@ -100,11 +97,47 @@ const teamInfo = [
 				}
 			}
 		},
-	])
-}
+		{
+			type: 'confirm',
+			name: 'addTeamMember',
+			message: 'Would you like to add another member to the team?',
+			default: false,
+		}
+	];
+
+	const promptTeam = () => {
+		console.log(`
+		============
+		Team Builder
+		============
+		`)
+
+		return inquirer.prompt(teamInfo)
+		.then(teamData => {
+			let {position, name, email, id, number, github, school} = teamData;
+			let teamMember;
+			if (position === 'Manager'){
+				teamMember = new Manager(name, email, id, number);
+			}
+			if (position === 'Engineer'){
+				teamMember = new Engineer(name, email, id, github);
+			}
+			if (position === 'Intern'){
+				teamMember = new Intern(name, email, id, school);
+			}
+			memberArray.push(teamMember);
+
+			if (teamData.addTeamMember) {
+				return promptTeam(memberArray);
+			}else {
+				return memberArray;
+			}
+		})
+	};
+
 
 const writeFile = data => {
-	fs.writeFile('newHTML.html', data, err => {
+	fs.writeFile('./dist/team.html', data, err => {
 		if (err) {
 			console.log(err);
 		}else {
@@ -113,11 +146,13 @@ const writeFile = data => {
 	})
 };
 
-managerInfo()
-.then(managerInput => {
-	return generateHtml(managerInput);
-})
+
+
+promptTeam()
 .then(data => {
-	return writeFile(data);
+	return generatePage(data)
+})
+.then(html => {
+	return writeFile(html)
 });
 
