@@ -1,1 +1,86 @@
-[{"name":"tanner","id":"email","email":"1","number":"1234"}]
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ENTER PAGE TITLE HERE</title>
+  
+  <style>
+    @import "https://cdn.simplecss.org/simple.min.css";
+
+    main {
+      display: grid;
+      grid-column: 1/-1;
+      justify-items: center;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      max-width: 1140px;
+      margin: auto;
+    }
+
+    @media screen and (max-width: 1140px) {
+      main {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media screen and (max-width: 720px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Team</h1>
+  </header>
+  <main>
+    
+    <div class="dist card bg-primary mb-3" style="width: 18rem;" >
+    <div class="card-header">
+      Manager <i class="fab fa-black-tie"></i>
+      </span>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Name: Tanner</li>
+      <li class="list-group-item">Employee ID: 1</li>
+      <li class="list-group-item">Office Number: 5551234</li>
+      <li class="list-group-item">Email: <a href="mailto:tanner@email.com">tanner@email.com</a></li>
+    </ul>
+  </div>
+    
+    
+    <div class="dist card bg-success mb-3" style="width: 18rem;" >
+    <div class="card-header">
+      Engineer <i class="fas fa-chalkboard-teacher"></i>
+      </span>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Name: Sam</li>
+      <li class="list-group-item">Employee ID: 2</li>
+      <li class="list-group-item">GitHub: <a href="https://github.com/samsgithub">samsgithub</a></li>
+      <li class="list-group-item">Email: <a href="mailto:sam@email.com">sam@email.com</a></li>
+    </ul>
+  </div>
+    
+    <div class="dist card bg-info mb-3" style="width: 18rem;" >
+    <div class="card-header">
+      Intern <i class="fas fa-baby"></i>
+      </span>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Name: tyler</li>
+      <li class="list-group-item">Employee ID: 3</li>
+      <li class="list-group-item">School Name: UNCC</li>
+      <li class="list-group-item">Email: <a href="mailto:tyler@email.com">tyler@email.com</a></li>
+    </ul>
+  </div>
+    
+  </main>
+  <footer>
+    &copy; 2022-2023
+  </footer>
+</body>
+</html>
